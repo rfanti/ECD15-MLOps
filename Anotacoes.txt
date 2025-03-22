@@ -1,2 +1,10 @@
 Anotações e links úteis para o trabalho
 
+
+
+KAGGLE - Avaliados
+
+https://www.kaggle.com/datasets/ashishkumarjayswal/brasil-real-estate/data
+
+https://www.kaggle.com/datasets/kaggleshashankk/house-price-data-of-sao-paulo
+
