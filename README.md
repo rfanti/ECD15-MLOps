@@ -83,7 +83,7 @@ O projeto inclui um arquivo `docker-compose.yml` que facilita a execução do pipe
 
 3. **Construa e inicie os contêineres**:
    ```bash
-   docker-compose up --build
+   docker-compose up -d --build
    ```
 
 4. **Acesse os serviços**:
