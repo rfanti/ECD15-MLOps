@@ -1,7 +1,8 @@
 Anotações e links úteis para o trabalho
 
 Resumo do trabalho - Trabalhar em um modelo preditivo para o valor de aluguel / valor do imóvel, com base nos dados disponíveis, 
-desenvolver modelos, eleger o melhor modelo e criar um fluxo de análise dos dados (no caso de data drift) e avaliação da necessidade de retreinamento do modelo.
+desenvolver modelos, eleger o melhor modelo e criar um fluxo de análise dos dados (no caso de data drift) e avaliação da necessidade 
+de retreinamento do modelo.
 
 
 KAGGLE - Avaliados
