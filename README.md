@@ -1,98 +1,98 @@
 # ECD15 - MLOps
 
-## IntroduÁ„o
+## Introdu√ß√£o
 
-O objetivo deste trabalho È aplicar conceitos e pr·ticas de MLOps para desenvolver um pipeline de Machine Learning funcional e automatizado. Os grupos (m·ximo de 3 pessoas) dever„o explorar um conjunto de dados real, implementar modelos preditivos e integrar o processo com ferramentas de monitoramento, versionamento e deploy.
+O objetivo deste trabalho √© aplicar conceitos e pr√°ticas de MLOps para desenvolver um pipeline de Machine Learning funcional e automatizado. Os grupos (m√°ximo de 3 pessoas) dever√£o explorar um conjunto de dados real, implementar modelos preditivos e integrar o processo com ferramentas de monitoramento, versionamento e deploy.
 
-O foco do projeto est· na construÁ„o de um fluxo completo, contemplando desde a preparaÁ„o dos dados atÈ a entrega do modelo em produÁ„o, garantindo rastreabilidade e reprodutibilidade.
+O foco do projeto est√° na constru√ß√£o de um fluxo completo, contemplando desde a prepara√ß√£o dos dados at√© a entrega do modelo em produ√ß√£o, garantindo rastreabilidade e reprodutibilidade.
 
 ### Integrantes
-- Douglas L·zaro (@dlazarosps)
+- Douglas L√°zaro (@dlazarosps)
 - Ilenice Trojahn (@ilenicetr)
 - Rafael Fanti (@rfanti)
 ---
 
 ## Dataset e Problema
-O problema de prediÁ„o do valor de imÛveis È um problema cl·ssico de regress„o em Machine Learning, onde o objetivo È prever o preÁo de uma propriedade com base em um conjunto de caracterÌsticas (features) que descrevem o imÛvel e sua localizaÁ„o.
+O problema de predi√ß√£o do valor de im√≥veis √© um problema cl√°ssico de regress√£o em Machine Learning, onde o objetivo √© prever o pre√ßo de uma propriedade com base em um conjunto de caracter√≠sticas (features) que descrevem o im√≥vel e sua localiza√ß√£o.
 
 ## Dataset
-- **Treinamento e ValidaÁ„o**: O dataset [Brasil Real Estate Data](https://www.kaggle.com/datasets/ashishkumarjayswal/brasil-real-estate/data) ser· utilizado para o treinamento e validaÁ„o do modelo no MLflow.
-- **PrediÁıes e Monitoramento de Drift**: O dataset [House Price Data of S„o Paulo](https://www.kaggle.com/datasets/kaggleshashankk/house-price-data-of-sao-paulo/data), previamente prÈ-processado e mapeado para manter consistÍncia com o dataset de treinamento, ser· utilizado para realizar prediÁıes e avaliar o drift do modelo treinado.
+- **Treinamento e Valida√ß√£o**: O dataset [Brasil Real Estate Data](https://www.kaggle.com/datasets/ashishkumarjayswal/brasil-real-estate/data) ser√° utilizado para o treinamento e valida√ß√£o do modelo no MLflow.
+- **Predi√ß√µes e Monitoramento de Drift**: O dataset [House Price Data of S√£o Paulo](https://www.kaggle.com/datasets/kaggleshashankk/house-price-data-of-sao-paulo/data), previamente pr√©-processado e mapeado para manter consist√™ncia com o dataset de treinamento, ser√° utilizado para realizar predi√ß√µes e avaliar o drift do modelo treinado.
 
 
-### DescriÁ„o do Problema
+### Descri√ß√£o do Problema
 
-O objetivo È construir um modelo preditivo que estime o valor de um imÛvel com base em vari·veis como:
+O objetivo √© construir um modelo preditivo que estime o valor de um im√≥vel com base em vari√°veis como:
 
-- **CaracterÌsticas do imÛvel**: n˙mero de quartos, banheiros, ·rea construÌda, n˙mero de vagas na garagem, entre outros.
-- **LocalizaÁ„o**: bairro, proximidade de serviÁos essenciais (escolas, hospitais, transporte p˙blico), Ìndice de criminalidade, etc.
-- **CondiÁıes do mercado**: ano de construÁ„o, tendÍncias de mercado, inflaÁ„o, entre outros fatores econÙmicos.
+- **Caracter√≠sticas do im√≥vel**: n√∫mero de quartos, banheiros, √°rea constru√≠da, n√∫mero de vagas na garagem, entre outros.
+- **Localiza√ß√£o**: bairro, proximidade de servi√ßos essenciais (escolas, hospitais, transporte p√∫blico), √≠ndice de criminalidade, etc.
+- **Condi√ß√µes do mercado**: ano de constru√ß√£o, tend√™ncias de mercado, infla√ß√£o, entre outros fatores econ√¥micos.
 
 ### Desafios do Problema
 
-1. **Dados Ausentes ou Inconsistentes**: … comum que datasets imobili·rios apresentem valores ausentes ou inconsistÍncias, como dados duplicados ou fora do intervalo esperado.
-2. **Multicolinearidade**: Algumas vari·veis podem estar altamente correlacionadas, o que pode impactar a performance de modelos lineares.
-3. **DistribuiÁ„o N„o-Uniforme**: Os preÁos dos imÛveis podem variar amplamente, resultando em uma distribuiÁ„o enviesada que pode dificultar o treinamento do modelo.
-4. **Overfitting**: Modelos complexos podem se ajustar demais aos dados de treinamento, prejudicando a generalizaÁ„o para novos dados.
-5. **Drift de Dados**: MudanÁas no mercado imobili·rio ao longo do tempo podem tornar o modelo obsoleto, exigindo monitoramento contÌnuo e re-treinamento.
+1. **Dados Ausentes ou Inconsistentes**: √â comum que datasets imobili√°rios apresentem valores ausentes ou inconsist√™ncias, como dados duplicados ou fora do intervalo esperado.
+2. **Multicolinearidade**: Algumas vari√°veis podem estar altamente correlacionadas, o que pode impactar a performance de modelos lineares.
+3. **Distribui√ß√£o N√£o-Uniforme**: Os pre√ßos dos im√≥veis podem variar amplamente, resultando em uma distribui√ß√£o enviesada que pode dificultar o treinamento do modelo.
+4. **Overfitting**: Modelos complexos podem se ajustar demais aos dados de treinamento, prejudicando a generaliza√ß√£o para novos dados.
+5. **Drift de Dados**: Mudan√ßas no mercado imobili√°rio ao longo do tempo podem tornar o modelo obsoleto, exigindo monitoramento cont√≠nuo e re-treinamento.
 
-### Abordagem com Modelos Cl·ssicos de ML
+### Abordagem com Modelos Cl√°ssicos de ML
 
-Para resolver o problema, ser„o utilizados modelos cl·ssicos de regress„o, como:
+Para resolver o problema, ser√£o utilizados modelos cl√°ssicos de regress√£o, como:
 
-- **Regress„o Linear**: Simples e interpret·vel, ideal para estabelecer uma linha de base.
-- **¡rvores de Decis„o**: Capturam relaÁıes n„o-lineares entre as vari·veis.
-- **Random Forest**: CombinaÁ„o de m˙ltiplas ·rvores para melhorar a robustez e reduzir overfitting.
-- **Gradient Boosting (ex.: XGBoost, LightGBM)**: Modelos baseados em boosting que geralmente apresentam alta performance em problemas de regress„o.
+- **Regress√£o Linear**: Simples e interpret√°vel, ideal para estabelecer uma linha de base.
+- **√Årvores de Decis√£o**: Capturam rela√ß√µes n√£o-lineares entre as vari√°veis.
+- **Random Forest**: Combina√ß√£o de m√∫ltiplas √°rvores para melhorar a robustez e reduzir overfitting.
+- **Gradient Boosting (ex.: XGBoost, LightGBM)**: Modelos baseados em boosting que geralmente apresentam alta performance em problemas de regress√£o.
 
-### MÈtricas de AvaliaÁ„o
+### M√©tricas de Avalia√ß√£o
 
-As mÈtricas utilizadas para avaliar o desempenho dos modelos incluir„o:
+As m√©tricas utilizadas para avaliar o desempenho dos modelos incluir√£o:
 
-- **Mean Absolute Error (MAE)**: MÈdia dos erros absolutos entre os valores reais e preditos.
-- **Mean Squared Error (MSE)**: MÈdia dos quadrados dos erros, penalizando erros maiores.
-- **R≤ Score**: Mede a proporÁ„o da vari‚ncia explicada pelo modelo.
+- **Mean Absolute Error (MAE)**: M√©dia dos erros absolutos entre os valores reais e preditos.
+- **Mean Squared Error (MSE)**: M√©dia dos quadrados dos erros, penalizando erros maiores.
+- **R¬≤ Score**: Mede a propor√ß√£o da vari√¢ncia explicada pelo modelo.
 
-A escolha do modelo final ser· baseada em um equilÌbrio entre desempenho (mÈtricas) e interpretabilidade, considerando tambÈm a facilidade de integraÁ„o no pipeline de MLOps.
+A escolha do modelo final ser√° baseada em um equil√≠brio entre desempenho (m√©tricas) e interpretabilidade, considerando tamb√©m a facilidade de integra√ß√£o no pipeline de MLOps.
 
 ---
 
-## Requisitos TÈcnicos
+## Requisitos T√©cnicos
 - **Linguagem**: Python 3.10
 - **Ferramentas Utilizadas**:
-    - Jupyter Notebooks (para exploraÁ„o do dataset e modelos)
+    - Jupyter Notebooks (para explora√ß√£o do dataset e modelos)
     - MLflow (para rastreamento e versionamento de modelos)
     - Evidently AI (para monitoramento de drift)
-    - FastAPI/Flask (para disponibilizaÁ„o do modelo via API, ex.: usando MLflow)
-    - GitHub/GitLab (para controle de vers„o)
-    - Docker/Docker Compose (para conteinerizaÁ„o e execuÁ„o do pipeline)
+    - FastAPI/Flask (para disponibiliza√ß√£o do modelo via API, ex.: usando MLflow)
+    - GitHub/GitLab (para controle de vers√£o)
+    - Docker/Docker Compose (para conteineriza√ß√£o e execu√ß√£o do pipeline)
 
-### ExecuÁ„o com Docker Compose
+### Execu√ß√£o com Docker Compose
 
-O projeto inclui um arquivo `docker-compose.yml` que facilita a execuÁ„o do pipeline completo em contÍineres. Siga os passos abaixo para executar o projeto:
+O projeto inclui um arquivo `docker-compose.yml` que facilita a execu√ß√£o do pipeline completo em cont√™ineres. Siga os passos abaixo para executar o projeto:
 
 1. **Certifique-se de ter o Docker e o Docker Compose instalados**:
    - [Instalar Docker](https://docs.docker.com/get-docker/)
    - [Instalar Docker Compose](https://docs.docker.com/compose/install/)
 
-2. **Clone o repositÛrio do projeto**:
+2. **Clone o reposit√≥rio do projeto**:
    ```bash
    git clone <URL_DO_REPOSITORIO>
    cd <NOME_DO_DIRETORIO>
    ```
 
-3. **Construa e inicie os contÍineres**:
+3. **Construa e inicie os cont√™ineres**:
    ```bash
    docker-compose up -d --build
    ```
 
-4. **Acesse os serviÁos**:
-   - O Jupyter Notebook estar· disponÌvel em `http://localhost:8888`.
-   - A API estar· disponÌvel em `http://localhost:5000`.
-   - O MLflow estar· disponÌvel em `http://localhost:8080`.
+4. **Acesse os servi√ßos**:
+   - O Jupyter Notebook estar√° dispon√≠vel em `http://localhost:8888`.
+   - A API estar√° dispon√≠vel em `http://localhost:5000`.
+   - O MLflow estar√° dispon√≠vel em `http://localhost:8080`.
 
-5. **Parar os contÍineres**:
-   Para encerrar os serviÁos, utilize:
+5. **Parar os cont√™ineres**:
+   Para encerrar os servi√ßos, utilize:
    ```bash
    docker-compose down
    ```
@@ -100,42 +100,42 @@ O projeto inclui um arquivo `docker-compose.yml` que facilita a execuÁ„o do pipe
 
 ## Etapas do Projeto (MLOps Pipeline)
 
-1. **ExploraÁ„o e PrÈ-processamento dos Dados**
-     - An·lise exploratÛria e tratamento de valores ausentes.
-     - NormalizaÁ„o/PadronizaÁ„o dos dados, quando necess·rio.
+1. **Explora√ß√£o e Pr√©-processamento dos Dados**
+     - An√°lise explorat√≥ria e tratamento de valores ausentes.
+     - Normaliza√ß√£o/Padroniza√ß√£o dos dados, quando necess√°rio.
 
-2. **Treinamento e AvaliaÁ„o do Modelo**
-     - ImplementaÁ„o de pelo menos dois modelos e comparaÁ„o de mÈtricas.
-     - UtilizaÁ„o do MLflow para rastrear experimentos.
+2. **Treinamento e Avalia√ß√£o do Modelo**
+     - Implementa√ß√£o de pelo menos dois modelos e compara√ß√£o de m√©tricas.
+     - Utiliza√ß√£o do MLflow para rastrear experimentos.
 
 3. **Versionamento e Armazenamento do Modelo**
      - Registro do modelo no MLflow Model Registry.
 
-4. **ImplantaÁ„o do Modelo**
-     - ConstruÁ„o de uma API com FastAPI ou Flask para servir previsıes (MLflow).
+4. **Implanta√ß√£o do Modelo**
+     - Constru√ß√£o de uma API com FastAPI ou Flask para servir previs√µes (MLflow).
      - Deploy local ou em nuvem (ex.: AWS, GCP, Azure).
 
 5. **Monitoramento e Re-treinamento**
-     - ImplementaÁ„o de monitoramento de drift de dados com Evidently AI.
-     - DefiniÁ„o de uma estratÈgia para re-treinamento autom·tico do modelo.
+     - Implementa√ß√£o de monitoramento de drift de dados com Evidently AI.
+     - Defini√ß√£o de uma estrat√©gia para re-treinamento autom√°tico do modelo.
 
-6. **ConteinerizaÁ„o e DocumentaÁ„o**
-     - InstruÁıes de execuÁ„o/documentaÁ„o do pipeline no repositÛrio.
+6. **Conteineriza√ß√£o e Documenta√ß√£o**
+     - Instru√ß√µes de execu√ß√£o/documenta√ß√£o do pipeline no reposit√≥rio.
 
 ---
 
-## Entreg·veis
+## Entreg√°veis
 
-- **CÛdigo-fonte** em um repositÛrio Git (GitHub/GitLab) contendo:
+- **C√≥digo-fonte** em um reposit√≥rio Git (GitHub/GitLab) contendo:
     - Pipeline de dados e treinamento.
-    - CÛdigo da API para inferÍncia.
+    - C√≥digo da API para infer√™ncia.
     - Scripts de monitoramento e re-treinamento.
-    - Arquivos de configuraÁ„o.
+    - Arquivos de configura√ß√£o.
 
-- **RelatÛrio** (.DOCX ou .PDF) explicando:
+- **Relat√≥rio** (.DOCX ou .PDF) explicando:
     - Escolha do dataset e problema abordado.
     - Metodologia e ferramentas utilizadas.
-    - Resultados e mÈtricas dos modelos.
-    - Fluxo completo do pipeline e consideraÁıes finais.
+    - Resultados e m√©tricas dos modelos.
+    - Fluxo completo do pipeline e considera√ß√µes finais.
 
 ---
