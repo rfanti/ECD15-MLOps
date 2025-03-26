@@ -4,7 +4,7 @@ FROM python:3.10-slim
 # Atualiza pip
 RUN pip install --upgrade pip
 
-# Instala o Jupyter, MLFlow e as bibliotecas necessárias
+# Instala o Jupyter, MLFlow e as bibliotecas necessï¿½rias
 # RUN pip install --no-cache-dir \
 RUN pip install \
     # evidently \
@@ -20,20 +20,22 @@ RUN pip install \
     scikit-learn \
     scipy \
     seaborn \
-    sqlparse 
+    sqlparse  \
+    geopandas 
 
-# Cria um diretório de trabalho
+# Cria um diretï¿½rio de trabalho
+RUN mkdir -p /app
 WORKDIR /app
 
-# expõe a portas
+# expï¿½e a portas
 EXPOSE 8080 8888 5000
 
 # Executa o Jupyter Notebook
-# CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]
 
-# Copiar o script de inicialização e torná-lo executável
-COPY init.sh /init.sh
-RUN chmod +x /init.sh
+# Copiar o script de inicializaï¿½ï¿½o e tornï¿½-lo executï¿½vel
+#COPY init.sh /init.sh
+#RUN chmod +x /init.sh
 
-# Definir o script de inicialização como o entrypoint do contêiner
-CMD ["/bin/sh", "/init.sh"]
+# Definir o script de inicializaï¿½ï¿½o como o entrypoint do contï¿½iner
+#CMD ["/bin/sh", "/init.sh"]
