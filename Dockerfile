@@ -21,7 +21,8 @@ RUN pip install \
     scipy \
     seaborn \
     sqlparse  \
-    geopandas 
+    geopandas \
+    scikit-learn xgboost
 
 # Cria um diretório de trabalho
 RUN mkdir -p /app
