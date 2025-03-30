@@ -11,15 +11,16 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 import mlflow
 import mlflow.sklearn
+from mlflow.models import infer_signature
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri("sqlite:///models/mlflow.db")
 
 mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
     mlflow.log_param("model_type", "Gradient Boosting")
     # Carregar o conjunto de dados
-    dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
+    dados = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="latin1")
 
     # Eliminando registros com valores null
     dados.dropna(inplace=True)
@@ -69,10 +70,15 @@ with mlflow.start_run() as run:
     r2_gb = r2_score(y_test, y_pred_gb)
     mae_gb = mean_absolute_error(y_test, y_pred_gb)
 
+    signature = infer_signature(X_test, y_pred_gb)
+
     print(f"Gradient Boosting: MSE={mse_gb:.2f}, R2={r2_gb:.2f}, MAE={mae_gb:.2f}")
 
-    mlflow.log_metric("mse", mse_gb)
-    mlflow.log_metric("r2", r2_gb)
-    mlflow.log_metric("mae", mae_gb)
+    mlflow.log_metrics({"mse": mse_gb, "r2": r2_gb, "mae": mae_gb})
 
-    mlflow.sklearn.log_model(model_gb, "Gradient Boosting")
+    mlflow.sklearn.log_model(
+        sk_model=model_gb,
+        artifact_path="'sklearn'-model",
+        signature=signature,
+        registered_model_name="gradient-boosting-model",
+    )

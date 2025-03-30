@@ -11,16 +11,17 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 import mlflow
 import mlflow.sklearn
+from mlflow.models import infer_signature
 
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri("sqlite:///models/mlflow.db")
 
 mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
     mlflow.log_param("model_type", "Random Forest")
     # Carregar o conjunto de dados
-    dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
+    dados = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="latin1")
 
     # Eliminando registros com valores null
     dados.dropna(inplace=True)
@@ -67,16 +68,27 @@ with mlflow.start_run() as run:
     model_rf = Pipeline(steps=[('preprocessor', preprocessor), ('regressor', RandomForestRegressor())])
     model_rf.fit(X_train, y_train)
 
+    #params = {"max_depth": 2, "random_state": 42}
+    #model = RandomForestRegressor(**params)
+    #model.fit(X_train, y_train)
+
+    #mlflow.log_params(params)
+
     # Avaliação do modelo Random Forest
     y_pred_rf = model_rf.predict(X_test)
     mse_rf = mean_squared_error(y_test, y_pred_rf)
     r2_rf = r2_score(y_test, y_pred_rf)
     mae_rf = mean_absolute_error(y_test, y_pred_rf)
 
+    signature = infer_signature(X_test, y_pred_rf)
+
     print(f"Random Forest: MSE={mse_rf:.2f}, R2={r2_rf:.2f}, MAE={mae_rf:.2f}")
 
-    mlflow.log_metric("mse", mse_rf)
-    mlflow.log_metric("r2", r2_rf)
-    mlflow.log_metric("mae", mae_rf)
+    mlflow.log_metrics({"mse": mse_rf, "r2": r2_rf, "mae": mae_rf})
 
-    mlflow.sklearn.log_model(model_rf, "Random Forest")
+    mlflow.sklearn.log_model(
+        sk_model=model_rf,
+        artifact_path="'sklearn'-model",
+        signature=signature,
+        registered_model_name="random-forest-model",
+    )

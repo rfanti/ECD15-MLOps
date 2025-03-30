@@ -11,8 +11,9 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 import mlflow
 import mlflow.sklearn
+from mlflow.models import infer_signature
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri("sqlite:///models/mlflow.db")
 
 mlflow.set_experiment("ecd15")
 
@@ -20,7 +21,7 @@ with mlflow.start_run() as run:
     mlflow.log_param("model_type", "XGBoost")
 
     # Carregar o conjunto de dados
-    dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
+    dados = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="latin1")
 
     # Eliminando registros com valores null
     dados.dropna(inplace=True)
@@ -64,16 +65,23 @@ with mlflow.start_run() as run:
     model_xgb = Pipeline(steps=[('preprocessor', preprocessor), ('regressor', XGBRegressor())])
     model_xgb.fit(X_train, y_train)
 
+    
+
     # Avaliação do modelo
     y_pred_xgb = model_xgb.predict(X_test)
     mse_xgb = mean_squared_error(y_test, y_pred_xgb)
     r2_xgb = r2_score(y_test, y_pred_xgb)
     mae_xgb = mean_absolute_error(y_test, y_pred_xgb)
 
+    signature = infer_signature(X_test, y_pred_xgb)
+
     print(f"XGBoost: MSE={mse_xgb:.2f}, R2={r2_xgb:.2f}, MAE={mae_xgb:.2f}")
 
-    mlflow.log_metric("mse", mse_xgb)
-    mlflow.log_metric("r2", r2_xgb)
-    mlflow.log_metric("mae", mae_xgb)
+    mlflow.log_metrics({"mse": mse_xgb, "r2": r2_xgb, "mae": mae_xgb})
 
-    mlflow.sklearn.log_model(model_xgb, "XGBoost")
+    mlflow.sklearn.log_model(
+        sk_model=model_xgb,
+        artifact_path="'sklearn'-model",
+        signature=signature,
+        registered_model_name="xgboost-model",
+    )

@@ -11,16 +11,16 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 import mlflow
 import mlflow.sklearn
+from mlflow.models import infer_signature
 
-
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri("sqlite:///models/mlflow.db")
 
 mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
     mlflow.log_param("model_type", "Decision Tree")
     # Carregar o conjunto de dados
-    dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
+    dados = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="latin1")
 
     # Eliminando registros com valores null
     dados.dropna(inplace=True)
@@ -72,10 +72,15 @@ with mlflow.start_run() as run:
     r2_dt = r2_score(y_test, y_pred_dt)
     mae_dt = mean_absolute_error(y_test, y_pred_dt)
 
+    signature = infer_signature(X_test, model_dt)
+
     print(f"Arvore de Decisão: MSE={mse_dt:.2f}, R2={r2_dt:.2f}, MAE={mae_dt:.2f}")
 
-    mlflow.log_metric("mse", mse_dt)
-    mlflow.log_metric("r2", r2_dt)
-    mlflow.log_metric("mae", mae_dt)
+    mlflow.log_metrics({"mse": mse_dt, "r2": r2_dt, "mae": mae_dt})
 
-    mlflow.sklearn.log_model(model_dt, "Decision Tree")
+    mlflow.sklearn.log_model(
+        sk_model=model_dt,
+        artifact_path="'sklearn'-model",
+        signature=signature,
+        registered_model_name="decision-tree-model",
+    )

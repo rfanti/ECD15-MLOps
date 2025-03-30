@@ -11,15 +11,16 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 import mlflow
 import mlflow.sklearn
+from mlflow.models import infer_signature
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri("sqlite:///models/mlflow.db")
 
 mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
     mlflow.log_param("model_type", "Linear Regression")
     # Carregar o conjunto de dados
-    dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
+    dados = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="latin1")
 
     # Eliminando registros com valores null
     dados.dropna(inplace=True)
@@ -73,11 +74,15 @@ with mlflow.start_run() as run:
     r2_lr = r2_score(y_test, y_pred_lr)
     mae_lr = mean_absolute_error(y_test, y_pred_lr)
 
+    signature = infer_signature(X_test, y_pred_lr)
 
     print(f"Regressão Linear: MSE={mse_lr:.2f}, R2={r2_lr:.2f}, MAE={mae_lr:.2f}")
 
-    mlflow.log_metric("mse", mse_lr)
-    mlflow.log_metric("r2", r2_lr)
-    mlflow.log_metric("mae", mae_lr)
+    mlflow.log_metrics({"mse": mse_lr, "r2": r2_lr, "mae": mae_lr})
 
-    mlflow.sklearn.log_model(model_lr, "Linear Regression")
+    mlflow.sklearn.log_model(
+        sk_model=model_lr,
+        artifact_path="'sklearn'-model",
+        signature=signature,
+        registered_model_name="linear-regression-model",
+    )
