@@ -15,10 +15,10 @@ import mlflow.sklearn
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
-mlflow.set_experiment("ecd15-dt")
+mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
-
+    mlflow.log_param("model_type", "Decision Tree")
     # Carregar o conjunto de dados
     dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
 
@@ -73,3 +73,9 @@ with mlflow.start_run() as run:
     mae_dt = mean_absolute_error(y_test, y_pred_dt)
 
     print(f"Arvore de Decisão: MSE={mse_dt:.2f}, R2={r2_dt:.2f}, MAE={mae_dt:.2f}")
+
+    mlflow.log_metric("mse", mse_dt)
+    mlflow.log_metric("r2", r2_dt)
+    mlflow.log_metric("mae", mae_dt)
+
+    mlflow.sklearn.log_model(model_dt, "Decision Tree")

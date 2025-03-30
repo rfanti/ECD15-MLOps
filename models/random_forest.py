@@ -15,10 +15,10 @@ import mlflow.sklearn
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
-mlflow.set_experiment("ecd15-rf")
+mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
-
+    mlflow.log_param("model_type", "Random Forest")
     # Carregar o conjunto de dados
     dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
 
@@ -74,3 +74,9 @@ with mlflow.start_run() as run:
     mae_rf = mean_absolute_error(y_test, y_pred_rf)
 
     print(f"Random Forest: MSE={mse_rf:.2f}, R2={r2_rf:.2f}, MAE={mae_rf:.2f}")
+
+    mlflow.log_metric("mse", mse_rf)
+    mlflow.log_metric("r2", r2_rf)
+    mlflow.log_metric("mae", mae_rf)
+
+    mlflow.sklearn.log_model(model_rf, "Random Forest")

@@ -14,9 +14,10 @@ import mlflow.sklearn
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
-mlflow.set_experiment("ecd15-lr")
+mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
+    mlflow.log_param("model_type", "Linear Regression")
     # Carregar o conjunto de dados
     dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
 
@@ -74,3 +75,9 @@ with mlflow.start_run() as run:
 
 
     print(f"Regressão Linear: MSE={mse_lr:.2f}, R2={r2_lr:.2f}, MAE={mae_lr:.2f}")
+
+    mlflow.log_metric("mse", mse_lr)
+    mlflow.log_metric("r2", r2_lr)
+    mlflow.log_metric("mae", mae_lr)
+
+    mlflow.sklearn.log_model(model_lr, "Linear Regression")

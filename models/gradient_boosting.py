@@ -14,10 +14,10 @@ import mlflow.sklearn
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
-mlflow.set_experiment("ecd15-gb")
+mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
-
+    mlflow.log_param("model_type", "Gradient Boosting")
     # Carregar o conjunto de dados
     dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
 
@@ -70,3 +70,9 @@ with mlflow.start_run() as run:
     mae_gb = mean_absolute_error(y_test, y_pred_gb)
 
     print(f"Gradient Boosting: MSE={mse_gb:.2f}, R2={r2_gb:.2f}, MAE={mae_gb:.2f}")
+
+    mlflow.log_metric("mse", mse_gb)
+    mlflow.log_metric("r2", r2_gb)
+    mlflow.log_metric("mae", mae_gb)
+
+    mlflow.sklearn.log_model(model_gb, "Gradient Boosting")

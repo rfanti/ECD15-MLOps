@@ -14,9 +14,10 @@ import mlflow.sklearn
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
-mlflow.set_experiment("ecd15-xgb")
+mlflow.set_experiment("ecd15")
 
 with mlflow.start_run() as run:
+    mlflow.log_param("model_type", "XGBoost")
 
     # Carregar o conjunto de dados
     dados = pd.read_csv("../dataset/brasil_estado_cidade.csv", encoding="latin1")
@@ -70,3 +71,9 @@ with mlflow.start_run() as run:
     mae_xgb = mean_absolute_error(y_test, y_pred_xgb)
 
     print(f"XGBoost: MSE={mse_xgb:.2f}, R2={r2_xgb:.2f}, MAE={mae_xgb:.2f}")
+
+    mlflow.log_metric("mse", mse_xgb)
+    mlflow.log_metric("r2", r2_xgb)
+    mlflow.log_metric("mae", mae_xgb)
+
+    mlflow.sklearn.log_model(model_xgb, "XGBoost")
