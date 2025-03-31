@@ -41,4 +41,5 @@ COPY init.sh /init.sh
 RUN chmod +x /init.sh
 
 # Definir o script de inicialização como o entrypoint do contêiner
+RUN sed -i 's/\r$//' /init.sh 
 CMD ["/bin/bash", "/init.sh"]
