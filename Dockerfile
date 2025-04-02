@@ -22,7 +22,13 @@ RUN pip install \
     seaborn \
     sqlparse  \
     geopandas \
-    scikit-learn xgboost
+    xgboost
+
+# Instala o Git
+RUN apt-get update && apt-get install -y git && apt-get clean
+
+# Define a variável de ambiente para o Git Python
+ENV GIT_PYTHON_GIT_EXECUTABLE=/usr/bin/git
 
 # Cria um diretório de trabalho
 RUN mkdir -p /app
