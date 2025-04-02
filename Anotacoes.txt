@@ -14,8 +14,6 @@ REUNIÃO 22/03
     https://www.kaggle.com/datasets/kaggleshashankk/house-price-data-of-sao-paulo
 
 
-
-
     Ideias discutidas: 
         -Utilizar o data set brasil-real-estate para treinar o modelo, utilizando latitude e longitude, metros quadrados e valor e 
         utilizar o house-price-data-of-sao-paulo para predição e validação do modelo, precisando trabalhar os dados, obter latitude e longitude.
