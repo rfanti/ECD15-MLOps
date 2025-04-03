@@ -34,17 +34,20 @@ ENV GIT_PYTHON_GIT_EXECUTABLE=/usr/bin/git
 RUN mkdir -p /app
 WORKDIR /app
 
-# Exponha as portas
-EXPOSE 8080 
-EXPOSE 8888 
-EXPOSE 5000
+# Configura a variável de ambiente MLFLOW_TRACKING_URI no arquivo .bashrc
+RUN echo 'export MLFLOW_TRACKING_URI="sqlite:///mlflow.db"' >> ~/.bashrc
 
-# Executa o Jupyter Notebook
-# CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]
+# Configura a variável de ambiente MLFLOW_TRACKING_URI para o contêiner
+ENV MLFLOW_TRACKING_URI="sqlite:///mlflow.db"
 
 # Copiar o script de inicialização e torná-lo executável
 COPY init.sh /init.sh
 RUN chmod +x /init.sh
+
+# Exponha as portas
+EXPOSE 8080 
+EXPOSE 8888 
+EXPOSE 5000
 
 # Definir o script de inicialização como o entrypoint do contêiner
 CMD ["/bin/bash", "/init.sh"]

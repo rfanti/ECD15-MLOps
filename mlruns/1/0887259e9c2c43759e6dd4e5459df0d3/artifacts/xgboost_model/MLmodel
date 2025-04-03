@@ -1,0 +1,32 @@
+artifact_path: xgboost_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.16
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.21.2
+model_size_bytes: 292066
+model_uuid: ddf467419c97401188d3841aa8a8368b
+prompts: null
+run_id: 0887259e9c2c43759e6dd4e5459df0d3
+signature:
+  inputs: '[{"type": "double", "name": "Unnamed: 0", "required": true}, {"type": "string",
+    "name": "property_type", "required": true}, {"type": "string", "name": "state",
+    "required": true}, {"type": "string", "name": "region", "required": true}, {"type":
+    "double", "name": "lat", "required": true}, {"type": "double", "name": "lon",
+    "required": true}, {"type": "double", "name": "area_m2", "required": true}, {"type":
+    "string", "name": "city", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-03 00:17:30.496735'
