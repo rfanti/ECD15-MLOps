@@ -50,4 +50,5 @@ EXPOSE 8888
 EXPOSE 5000
 
 # Definir o script de inicialização como o entrypoint do contêiner
+RUN sed -i 's/\r$//' /init.sh 
 CMD ["/bin/bash", "/init.sh"]

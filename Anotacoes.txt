@@ -1,29 +1,90 @@
 Anotações e links úteis para o trabalho
 
-Resumo do trabalho - Trabalhar em um modelo preditivo para o valor de aluguel / valor do imóvel, com base nos dados disponíveis, 
-desenvolver modelos, eleger o melhor modelo e criar um fluxo de análise dos dados (no caso de data drift) e avaliação da necessidade 
-de retreinamento do modelo.
+REUNIÃO 22/03
+
+    Resumo do trabalho - Trabalhar em um modelo preditivo para o valor de aluguel / valor do imóvel, com base nos dados disponíveis, 
+    desenvolver modelos, eleger o melhor modelo e criar um fluxo de análise dos dados (no caso de data drift) e avaliação da necessidade 
+    de retreinamento do modelo.
 
 
-KAGGLE - Avaliados
+    KAGGLE - Avaliados
 
-https://www.kaggle.com/datasets/ashishkumarjayswal/brasil-real-estate/data
+    https://www.kaggle.com/datasets/ashishkumarjayswal/brasil-real-estate/data
 
-https://www.kaggle.com/datasets/kaggleshashankk/house-price-data-of-sao-paulo
-
-
+    https://www.kaggle.com/datasets/kaggleshashankk/house-price-data-of-sao-paulo
 
 
-Ideias discutidas: 
-
-22/03
-    -Utilizar o data set brasil-real-estate para treinar o modelo, utilizando latitude e longitude, metros quadrados e valor e 
-    utilizar o house-price-data-of-sao-paulo para predição e validação do modelo, precisando trabalhar os dados, obter latitude e longitude.
+    Ideias discutidas: 
+        -Utilizar o data set brasil-real-estate para treinar o modelo, utilizando latitude e longitude, metros quadrados e valor e 
+        utilizar o house-price-data-of-sao-paulo para predição e validação do modelo, precisando trabalhar os dados, obter latitude e longitude.
 
 
 
-DIVISÃO - TAREFAS
+    DIVISÃO - TAREFAS
 
-FANTI - Exploração datasets, tratamento e treinamento
-DOUGLAS - Docker, MLFlow, Predição
-ILENICE - 
+    FANTI - Exploração datasets, tratamento e treinamento
+    DOUGLAS - Docker, MLFlow, Predição
+    ILENICE - 
+
+
+REUNIAO 02/04
+
+    Tarefas 
+
+    - Criar código python para tratar dataset sao paulo, para teste
+
+    - Corrigir valor imoveis de acordo com a inflação para simular data drifiting, novo data set
+    
+    - Utilizar evidently para identificar drift nos dados, 
+        - registrar no log metricas de avaliação do modelo e drift 
+    
+    - Identificando drift, mandar retreinar com dados atualizados, avaliar novamente osmodelos
+        - registrar no log metricas atualizadas após o treinamento
+        
+    - Relatorio de todo o processo 
+    
+    
+    Análise exploratorio
+    OK	-notebook exploracao
+        
+    Treinamento e Avaliação 
+    OK	-notebook treinamento
+
+    Versionamento e Armazenamento do Modelo
+    OK	- notebook , treina e registra no mlflow , versionamento
+        
+    Implantacao do Modelo 
+        - Fazer rota de previsão para valor do imóvel (DOUGLAS)
+        
+        - Tratar dataset SAO PAULO para utilizar no modelo (FANTI)
+        
+    Monitoramento e Re-treinamento (ILENICE)
+        - Utilizar evidently para monitorar e avaliar drift dos dados, e mandar retreinar se necessário
+        
+    Conteinerizacao e Documentacao
+    OK	- Utilizando docker, documento readme com instruções
+
+
+    ** Duvida com o professor, 
+        Professor uma duvida, com relação aos entregavies do trabalho 
+        os scripts precisam ser necessariamente em codigo python.py, temos ambos, mas optamos por utilizar
+        notebook pela facilidade de execução, documentacao,  visualização e teste.
+        Sabendo que 
+
+    Entregáveis
+        ● Código-fonte em um repositório Git (GitHub/GitLab) contendo:
+    OK		○ Pipeline de dados e treinamento.
+            ○ Código da API para inferência. 				- DOUGLAS
+            ○ Scripts de monitoramento e re-treinamento.	- ILENICE
+            ○ Arquivos de configuração. (readme) 
+            
+        ● Relatório (.DOCX ou .PDF) explicando:
+            ○ Escolha do dataset e problema abordado.
+            ○ Metodologia e ferramentas utilizadas.
+            ○ Resultados e métricas dos modelos.
+            ○ Fluxo completo do pipeline e considerações finais.
+	
+	
+	
+	
+	
