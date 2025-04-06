@@ -1,4 +1,4 @@
-Unnamed: 0,property_type,state,region,lat,lon,area_m2,price_brl,city
+id,property_type,state,region,lat,lon,area_m2,price_brl,city
 1,apartment,Pernambuco,Northeast,-8.134204,-34.906326,72.0,414222.98,Recife
 2,apartment,Pernambuco,Northeast,-8.1266642,-34.903924,136.0,848408.53,Recife
 3,apartment,Pernambuco,Northeast,-8.1255503,-34.907601,75.0,299438.28,Recife
