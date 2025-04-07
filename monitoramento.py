@@ -16,10 +16,12 @@ def check_for_drift(drift_score, drift_by_columns):
     if drift_score > 0.5:
         print("Drift detectado no Dataset")
         os.system("jupyter nbconvert --to notebook --execute treinamento.ipynb --output treinamento_exec.ipynb")
+        os.system("jupyter nbconvert --to notebook --execute predicao.ipynb --output predicao_exec.ipynb")  # <-- aqui
     else:
         if num_columns_drift > 2:
             print(f"Drift detectado em {num_columns_drift} colunas! Treinando novo modelo...")
             os.system("jupyter nbconvert --to notebook --execute treinamento.ipynb --output treinamento_exec.ipynb")
+            os.system("jupyter nbconvert --to notebook --execute predicao.ipynb --output predicao_exec.ipynb")  # <-- e aqui também
         else:
             print("Modelo ainda está bom, sem necessidade de re-treinamento.")
             print("Nenhum drift detectado nas colunas e no dataset")
