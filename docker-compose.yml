@@ -1,7 +1,7 @@
 services:
-  ecd15-mlops-house-br-drift:
-    container_name: ecd15-mlops-house-br-drift
-    image: ecd15-mlops-house-br-drift:latest
+  ecd15:
+    container_name: ecd15
+    image: ecd15:latest
     build:
       context: .
       dockerfile: Dockerfile
