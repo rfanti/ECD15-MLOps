@@ -17,13 +17,13 @@ def check_for_drift(drift_score, drift_by_columns):
     print(drift_score)
     if drift_score > 0.5:
         print("Drift detectado no Dataset")
-        os.system("jupyter nbconvert --to notebook --execute treinamento.ipynb --output treinamento_exec.ipynb")
-        os.system("jupyter nbconvert --to notebook --execute predicao.ipynb --output predicao_exec.ipynb")  # <-- aqui
+        os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb --output treinamento_exec.ipynb")
+        os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb --output predicao_exec.ipynb")  # <-- aqui
     else:
         if num_columns_drift > 2:
             print(f"Drift detectado em {num_columns_drift} colunas! Treinando novo modelo...")
-            os.system("jupyter nbconvert --to notebook --execute treinamento.ipynb --output treinamento_exec.ipynb")
-            os.system("jupyter nbconvert --to notebook --execute predicao.ipynb --output predicao_exec.ipynb")  # <-- e aqui também
+            os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb --output treinamento_exec.ipynb")
+            os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb --output predicao_exec.ipynb")  # <-- e aqui também
         else:
             print("Modelo ainda está bom, sem necessidade de re-treinamento.")
             print("Nenhum drift detectado nas colunas e no dataset")
@@ -115,12 +115,12 @@ def preprocess_data(df):
 
     return X, y.astype(float).round(2)
 
-
-
 if __name__ == "__main__":
 
-    dados = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="utf-8")
-    sample = dados.sample(1000)  # Pegamos exemplos aleatórios para testar
+    dados_antigos = pd.read_csv("dataset/brasil_estado_cidade.csv", encoding="utf-8")
+    dados_novos = pd.read_csv("dataset/sao_paulo.csv", encoding="utf-8")
+
+    sample = dados_antigos.sample(1000)  # Pegamos exemplos aleatórios para testar
 
     df_examples, y = preprocess_data(sample)
 
@@ -130,8 +130,9 @@ if __name__ == "__main__":
     #df_examples, y = preprocess_data(new_data)
     #drift_score, drift_by_columns = evaluate_model(df_examples, y, new_data)
 
-    new_data = simulate_drift(sample)
-    drift_score, drift_by_columns = evaluate_model(df_examples, y, new_data)
+    sample_novos = dados_novos.sample(1000)
+    new_data = simulate_drift(sample_novos)
+    drift_score, drift_by_columns = evaluate_model(sample_novos, y, new_data)
 
     check_for_drift(drift_score, drift_by_columns)
 

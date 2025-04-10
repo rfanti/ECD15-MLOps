@@ -22,7 +22,8 @@ RUN pip install \
     seaborn \
     sqlparse  \
     geopandas \
-    xgboost
+    xgboost \
+    nbconvert
 
 # Instala o Git
 RUN apt-get update && apt-get install -y git && apt-get clean

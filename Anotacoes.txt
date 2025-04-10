@@ -84,7 +84,23 @@ REUNIAO 02/04
             ○ Resultados e métricas dos modelos.
             ○ Fluxo completo do pipeline e considerações finais.
 	
-	
+REUNIAO 09/04
+
+    - Refazer e testar a detecção de data drift, adaptando ao nosso negocio, medir R2 Score (RAFAEL)
+        monitoramento.py
+        - Detectando drift, chamar função de treinamento, copiar do notebook com MLFLOW
+    - Ver como chamar nobebook do python 
+    - CSV de treinamento, atualizar sempre com os dados novos para treinamento
+
+    - Relatório final (ILENICE)
+
+    - Revisar o passo a passo para execução, se esta funcionando.
+
+
+
+    
+
+
 	
 	
 	
