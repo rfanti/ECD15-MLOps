@@ -1,42 +1,24 @@
 # Utiliza a imagem oficial do python 3
 FROM python:3.10-slim
 
+# Cria um diretório de trabalho
+RUN mkdir -p /app
+WORKDIR /app
+
 # Atualiza pip
 RUN pip install --upgrade pip
 
+# Copia o arquivo requirements.txt para o contêiner
+COPY requirements.txt /app/requirements.txt
+
 # Instala o Jupyter, MLFlow e as bibliotecas necessárias
-# RUN pip install --no-cache-dir \
-RUN pip install \
-    evidently \
-    jupyter \
-    matplotlib \
-    mlflow \
-    nbformat \
-    numpy \
-    pandas \
-    plotly \
-    psycopg2-binary \
-    requests \
-    scikit-learn \
-    scipy \
-    seaborn \
-    sqlparse  \
-    geopandas \
-    xgboost 
- #   nbconvert \   Esta dando problema na hora de execução, não encontra o evidently.report
- #   nbclient \
- #   ipykernel \
- #   traitlets
+RUN pip install -r requirements.txt
 
 # Instala o Git
 RUN apt-get update && apt-get install -y git && apt-get clean
 
 # Define a variável de ambiente para o Git Python
 ENV GIT_PYTHON_GIT_EXECUTABLE=/usr/bin/git
-
-# Cria um diretório de trabalho
-RUN mkdir -p /app
-WORKDIR /app
 
 # Configura a variável de ambiente MLFLOW_TRACKING_URI no arquivo .bashrc
 RUN echo 'export MLFLOW_TRACKING_URI="sqlite:///mlflow.db"' >> ~/.bashrc
