@@ -3,6 +3,7 @@ import numpy as np
 import requests
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset, RegressionPreset, ClassificationPreset
+from evidently import ColumnMapping
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 from sklearn.compose import ColumnTransformer
@@ -39,17 +40,13 @@ def remover_outliers_por_cidade(df):
     df_filtrado = df.groupby("city").apply(remover_outliers_grupo).reset_index(drop=True)
     return df_filtrado
 
-def simulate_drift(dados):
-    new_data = dados.copy()
+def ajuste_valor_inflacao(dados):
+    data = dados.copy()
     # Mudando coluna de preço de imóveis para simular mudanças nos padrões dos dados
     # new_data["tenure"] = np.random.randint(0, 10, new_data.shape[0])  # Mudamos a duração do cliente aleatoriamente
-    #new_data["price_brl"] *= 1.038  # Aumentamos o custo mensal em 3.80%, considerando IPCA dos últimos 6 meses https://www.ibge.gov.br/explica/inflacao.php
-    
-    new_data["price_brl"] *= 5 # Simulando drift com uma inflação de 15% 
-    new_data["area_m2"] *= 2
+    data["price_brl"] *= 1.038  # Aumentamos o custo mensal em 3.80%, considerando IPCA dos últimos 6 meses https://www.ibge.gov.br/explica/inflacao.php
 
-    print("Criado dataset artificialmente alterado para simular drift.")
-    return new_data
+    return data
 
 def get_predictions(data):
     print(data.head())
@@ -72,33 +69,43 @@ def get_predictions(data):
     print(predictions)
     return predictions
 
-# Avaliar degradação do modelo
-def evaluate_model(df, y, new_data):
-   
+def evaluate_model(df, y, new_data=None, y_new=None):
+
+    column_mapping = ColumnMapping(
+        target='target',
+        prediction='prediction',
+        numerical_features=['area_m2', 'lat', 'lon'],
+        categorical_features=['city', 'state', 'property_type']
+    )
+
     data_to_evaluate = new_data if new_data is not None else df
-    evaluation_type = "artificiais" if new_data is not None else "originais"
-    print(f"Avaliando modelo com dados {evaluation_type}")
- 
+    target = y_new if y_new is not None else y
+
+    data_to_evaluate = data_to_evaluate.copy()
     data_to_evaluate["prediction"] = get_predictions(data_to_evaluate)
-    data_to_evaluate["prediction"] = data_to_evaluate["prediction"].astype(int)
-    print(data_to_evaluate["prediction"].unique())
- 
-    data_to_evaluate["target"] = y
-    print(data_to_evaluate["target"].unique())
- 
+    data_to_evaluate["prediction"] = data_to_evaluate["prediction"].astype(float)
+    data_to_evaluate["target"] = target
+
+    reference_data = df.copy()
+    reference_data["target"] = y
+    reference_data["prediction"] = y  # simula previsão perfeita no ref
+
     report = Report(metrics=[DataDriftPreset(), RegressionPreset()])
-    report.run(reference_data=df, current_data=data_to_evaluate)
-    
+
+    #report.run(reference_data=reference_data, current_data=data_to_evaluate)
+    report.run(reference_data=reference_data, current_data=data_to_evaluate, column_mapping=column_mapping)
+
+
     report_filename = "monitoring_report_df_new_data.html" if new_data is not None else "monitoring_report_df.html"
     report.save_html(report_filename)
- 
+
     report_dict = report.as_dict()
     drift_score = report_dict["metrics"][0]["result"]["dataset_drift"]
-    print(f"Score de drift: {drift_score}")
- 
     drift_by_columns = report_dict["metrics"][1]["result"].get("drift_by_columns", {})
+
+    print(f"Score de drift: {drift_score}")
     print(f"Colunas com drift: {drift_by_columns}")
- 
+    
     return drift_score, drift_by_columns
 
 def preprocess_data(df):
@@ -122,19 +129,31 @@ if __name__ == "__main__":
 
     sample = dados_antigos.sample(1000)  # Pegamos exemplos aleatórios para testar
 
-    df_examples, y = preprocess_data(sample)
+    df, y = preprocess_data(sample)
 
-    drift_score, drift_by_columns = evaluate_model(df_examples, y, None)
+    drift_score, drift_by_columns = evaluate_model(df, y, None)
 
-    #new_data = simulate_drift(dados.sample(1000))
-    #df_examples, y = preprocess_data(new_data)
-    #drift_score, drift_by_columns = evaluate_model(df_examples, y, new_data)
+    # Dados antigos, Testando a detecção de drift, enviando  nova amostra dos dados antigos para comparação, 
+    #  - não deve detectar drift relevante nos dados 
+    #sample_novos = dados_antigos.sample(1000)    
+    
+    # Dados novos reais (novo data set)
+    sample_novos = dados_novos.sample(1000)       
 
-    sample_novos = dados_novos.sample(1000)
-    new_data = simulate_drift(sample_novos)
-    drift_score, drift_by_columns = evaluate_model(sample_novos, y, new_data)
+    # Rotina de ajuste do valor do imóvel de acordo com inflação, não é mais utilizado
+    #new_data = ajuste_valor_inflacao(sample_novos) 
 
-    check_for_drift(drift_score, drift_by_columns)
+    new_data = sample_novos
+
+    df_driftado, y_driftado = preprocess_data(new_data) 
+
+    # Avalia o modelo com os dados que passaram por drift e seus targets atualizados
+    drift_score, drift_by_columns = evaluate_model(
+        df,                     # <-- base de referência (antiga, sem drift)
+        y,                      # <-- target da base de referência
+        new_data=df_driftado,
+        y_new=y_driftado        # <-- target dos dados com drift
+    )
 
 
 

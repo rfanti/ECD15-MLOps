@@ -22,8 +22,11 @@ RUN pip install \
     seaborn \
     sqlparse  \
     geopandas \
-    xgboost \
-    nbconvert
+    xgboost 
+ #   nbconvert \   Esta dando problema na hora de execução, não encontra o evidently.report
+ #   nbclient \
+ #   ipykernel \
+ #   traitlets
 
 # Instala o Git
 RUN apt-get update && apt-get install -y git && apt-get clean
