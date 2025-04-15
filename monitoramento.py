@@ -13,21 +13,41 @@ import json
 import os
 #import json
 
-def check_for_drift(drift_score, drift_by_columns):
+def check_for_drift(drift_score, drift_by_columns, dados, dados_novos):
     num_columns_drift = sum(1 for col, values in drift_by_columns.items() if values.get("drift_detected", False))
     print(drift_score)
     if drift_score > 0.5:
         print("Drift detectado no Dataset")
-        os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb --output treinamento_exec.ipynb")
-        os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb --output predicao_exec.ipynb")  # <-- aqui
+
+        seta_dados_para_treinamento(dados, dados_novos)
+
+        print("executando notebook treinamento")
+        #os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb")
+        print("executando notebook predicao")
+        os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb")  # <-- aqui
+
     else:
         if num_columns_drift > 2:
             print(f"Drift detectado em {num_columns_drift} colunas! Treinando novo modelo...")
-            os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb --output treinamento_exec.ipynb")
-            os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb --output predicao_exec.ipynb")  # <-- e aqui também
+
+            seta_dados_para_treinamento(dados, dados_novos)
+
+            os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb")
+            os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb")  # <-- e aqui também
         else:
             print("Modelo ainda está bom, sem necessidade de re-treinamento.")
             print("Nenhum drift detectado nas colunas e no dataset")
+
+def seta_dados_para_treinamento(dados, dados_novos):
+    dados_unificados = pd.concat([dados, dados_novos], ignore_index=True)
+
+    dados_unificados = dados_unificados.drop(columns=['id'])
+
+    dados_unificados.insert(0, 'id', range(1, len(dados_unificados) + 1))
+    
+    os.makedirs('dataset', exist_ok=True)
+    
+    dados_unificados.to_csv('dataset/dados_treinamento.csv', index=False)
 
 def remover_outliers_por_cidade(df):
     # Remove outliers da coluna 'price_brl' agrupando por cidade.
@@ -154,6 +174,10 @@ if __name__ == "__main__":
         new_data=df_driftado,
         y_new=y_driftado        # <-- target dos dados com drift
     )
+
+    check_for_drift(drift_score, drift_by_columns, dados_antigos, dados_novos)
+
+
 
 
 
