@@ -17,6 +17,9 @@ RUN pip install -r requirements.txt
 # Instala o Git
 RUN apt-get update && apt-get install -y git && apt-get clean
 
+# Instala lsof
+RUN apt-get install -y lsof && apt-get clean
+
 # Define a variável de ambiente para o Git Python
 ENV GIT_PYTHON_GIT_EXECUTABLE=/usr/bin/git
 

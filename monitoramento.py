@@ -15,28 +15,20 @@ import os
 
 def check_for_drift(drift_score, drift_by_columns, dados, dados_novos):
     num_columns_drift = sum(1 for col, values in drift_by_columns.items() if values.get("drift_detected", False))
-    print(drift_score)
-    if drift_score > 0.5:
+    print("Drift score: {drift_score} Colunas com drift: {num_columns_drift}"  )
+    if drift_score > 0.5 or num_columns_drift > 2:
         print("Drift detectado no Dataset")
 
+        print("Atualizando os dados para treinamento")
         seta_dados_para_treinamento(dados, dados_novos)
 
-        print("executando notebook treinamento")
-        #os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb")
-        print("executando notebook predicao")
-        os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb")  # <-- aqui
-
+        print("Executando notebook de treinamento e publicando modelos no mlflow")
+        os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb")
+        print("Executando notebook de predição, eleger o melhor modelo e publicar em produção")
+        os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb")  
     else:
-        if num_columns_drift > 2:
-            print(f"Drift detectado em {num_columns_drift} colunas! Treinando novo modelo...")
-
-            seta_dados_para_treinamento(dados, dados_novos)
-
-            os.system("jupyter nbconvert --to notebook --execute --inplace treinamento.ipynb")
-            os.system("jupyter nbconvert --to notebook --execute --inplace predicao.ipynb")  # <-- e aqui também
-        else:
-            print("Modelo ainda está bom, sem necessidade de re-treinamento.")
-            print("Nenhum drift detectado nas colunas e no dataset")
+        print("Modelo ainda está bom, sem necessidade de re-treinamento.")
+        print("Nenhum drift detectado nas colunas e no dataset")
 
 def seta_dados_para_treinamento(dados, dados_novos):
     dados_unificados = pd.concat([dados, dados_novos], ignore_index=True)
