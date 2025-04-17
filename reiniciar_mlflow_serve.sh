@@ -28,7 +28,7 @@ do
 
   if [ "$MODEL_VERSION" != "null" ] && [ -n "$MODEL_VERSION" ]; then
     echo "[INFO] Servindo modelo: ${MODEL_NAME} versão ${MODEL_VERSION} (Production)"
-    mlflow models serve -m "models:/${MODEL_NAME}/${MODEL_VERSION}" --no-conda --host 0.0.0.0 --port 5000 &
+    setsid mlflow models serve -m "models:/${MODEL_NAME}/${MODEL_VERSION}" --no-conda --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 < /dev/null &
     MODEL_SERVED=1
     break
   else
