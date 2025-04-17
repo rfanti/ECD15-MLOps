@@ -15,7 +15,7 @@ import os
 
 def check_for_drift(drift_score, drift_by_columns, dados, dados_novos):
     num_columns_drift = sum(1 for col, values in drift_by_columns.items() if values.get("drift_detected", False))
-    print("Drift score: {drift_score} Colunas com drift: {num_columns_drift}"  )
+    print(f"Drift score: {drift_score} Colunas com drift: {num_columns_drift}")
     if drift_score > 0.5 or num_columns_drift > 2:
         print("Drift detectado no Dataset")
 
