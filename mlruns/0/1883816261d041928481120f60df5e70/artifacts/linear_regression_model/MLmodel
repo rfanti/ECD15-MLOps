@@ -1,0 +1,32 @@
+artifact_path: linear_regression_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.17
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.21.3
+model_size_bytes: 5376
+model_uuid: 3b10529c9dec44a79f4fe0defb8d2c9c
+prompts: null
+run_id: 1883816261d041928481120f60df5e70
+signature:
+  inputs: '[{"type": "double", "name": "id", "required": true}, {"type": "string",
+    "name": "property_type", "required": true}, {"type": "string", "name": "state",
+    "required": true}, {"type": "string", "name": "region", "required": true}, {"type":
+    "double", "name": "lat", "required": true}, {"type": "double", "name": "lon",
+    "required": true}, {"type": "double", "name": "area_m2", "required": true}, {"type":
+    "string", "name": "city", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-17 01:42:12.544003'

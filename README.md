@@ -97,7 +97,8 @@ O projeto inclui um arquivo `docker-compose.yml` que facilita a execução do pi
    docker-compose down
    ```
 
-   docker exec -it ecd15 bash
+6. **Executar container docker**
+     docker exec -it ecd15 bash
 ---
 
 ## Etapas do Projeto (MLOps Pipeline)
