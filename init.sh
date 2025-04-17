@@ -18,6 +18,6 @@ done
 echo "MLflow server está pronto."
 
 #Carregar API com modelo de produção
-bash reiniciar _mlflow_serve.sh
+./reiniciar_mlflow_serve.sh
 
 wait
