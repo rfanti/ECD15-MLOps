@@ -17,6 +17,9 @@ RUN pip install -r requirements.txt
 # Instala o Git
 RUN apt-get update && apt-get install -y git && apt-get clean
 
+
+RUN apt-get update && apt-get install -y curl jq
+
 # Instala fuser
 RUN apt-get install -y psmisc
 
