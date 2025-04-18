@@ -135,7 +135,7 @@ O projeto inclui um arquivo `docker-compose.yml` que facilita a execução do pi
     - Scripts de monitoramento e re-treinamento.
     - Arquivos de configuração.
 
-- **Relatório** (.DOCX ou .PDF) explicando:
+- **Relatório** (https://docs.google.com/document/d/1Qgf2QIFK2hsEwEypyOPeRrO1jbGNJw_Fm-yCcGct-uI/edit?usp=sharing) explicando:
     - Escolha do dataset e problema abordado.
     - Metodologia e ferramentas utilizadas.
     - Resultados e métricas dos modelos.
